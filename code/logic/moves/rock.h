@@ -1,10 +1,12 @@
 #ifndef ROCK_H
 #define ROCK_H
 
-class rock
-{
+#include "../move.h"
+
+class Rock : public Move {
 public:
-    rock();
+    std::string getName() const override { return "Rock"; }
+    bool defeats(const Move& other) const override;
 };
 
-#endif // ROCK_H
+#endif // LOGIC_ROCK_H
