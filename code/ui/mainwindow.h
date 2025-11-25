@@ -1,34 +1,35 @@
-#ifndef MAINWINDOW_HPP
-#define MAINWINDOW_HPP
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
 
 #include <QWidget>
+#include <QPushButton>
+#include <QComboBox>
+#include <QLabel>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
 #include "../logic/game.h"
 
 class MainWindow : public QWidget {
     Q_OBJECT
 
 public:
-    explicit mainwindow(QWidget *parent = nullptr);
+    MainWindow(QWidget *parent = nullptr);
+    ~MainWindow();
 
 private slots:
-    void onStartGame();
-    void onMatchModeClicked();
-    void onResetGameClicked();
-    //TODO: Substituir para uma unica funcao de onMoveClicked
-    void onRockClicked();
-    void onPaperClicked();
-    void onScissorsClicked();
-    void onLizardClicked();
-    void onSpockClicked();
+    void startGame();
+    void makeMove();
+    void updateAfterRound();
 
 private:
-    Ui::MainWindow *ui;
-    Game *game;
+    QComboBox *modeSelector;
+    QComboBox *moveSelector;
+    QPushButton *startButton;
+    QPushButton *playButton;
+    QLabel *roundResultLabel;
+    QLabel *finalResultLabel;
 
-    void playRound(Move& playerMove, Move& ComputerMove);
-    void isFinished();
-    void getFinalResult();
-    void resetGame();
+    Game *game;
 };
 
-#endif // MAINWINDOW_HPP
+#endif // MAINWINDOW_H
