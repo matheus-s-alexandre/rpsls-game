@@ -6,7 +6,15 @@ class Move {
 public:
     virtual ~Move() = default;
     virtual std::string getName() const = 0;
-    virtual bool defeats(const Move& other) const = 0;
+    virtual bool defeats(const Move& opponentMove) const = 0;
+};
+
+enum class MoveType {
+    Rock,
+    Paper,
+    Scissors,
+    Lizard,
+    Spock
 };
 
 #endif // MOVE_H
