@@ -12,6 +12,8 @@ void Game::resetGame() {
 std::string Game::playRound(const Move& player, const Move& computer) {
     roundsPlayed++;
 
+    std::string result = "";
+
     std::string text = "You chose " + player.getName() +
                        ", Computer chose " + computer.getName() + ". ";
 
@@ -19,14 +21,14 @@ std::string Game::playRound(const Move& player, const Move& computer) {
 
     if (player.defeats(computer)) {
         playerWins++;
-        text = "You win this round!";
+        std::string resultText = "You win this round!";
         // Emit event to QT
     } else if (computer.defeats(player)) {
         computerWins++;
-        text = "Computer wins this round!";
+        std::string resultText = "Computer wins this round!";
         // Emit event to QT
     } else {
-        text = "It's a tie"
+        std::string resultText = "It's a tie";
         // Emit event to QT
     }
 
@@ -58,12 +60,12 @@ bool Game::isFinished() const {
 std::string Game::getFinalResult() const {
     if (playerWins > computerWins) {
         // Emit event to QT
-        text = "Game Result: You win the match!";
+        std::string text = "Game Result: You win the match!";
     } else if (computerWins > playerWins) {
         // Emit event to QT
-        text = "Game Result: Computer wins the match!";
+        std::string text = "Game Result: Computer wins the match!";
     } else {
         // Emit event to QT
-        text = "Game Result: It's a draw!";
+        std::string text = "Game Result: It's a draw!";
     }
 }

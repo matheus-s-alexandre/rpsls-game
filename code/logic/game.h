@@ -13,6 +13,8 @@ class Game {
 public:
     MatchMode mode = MatchMode::SINGLE;
 
+    Game(MatchMode mode);
+
     std::string playRound(const Move& player, const Move& computer);
 
     bool isFinished() const;
@@ -20,7 +22,6 @@ public:
 
     void resetGame();
 private:
-    MatchMode mode;
     int playerWins;
     int computerWins;
     int roundsPlayed;
