@@ -30,6 +30,8 @@ private:
     QLabel *finalResultLabel;
 
     Game *game;
+    Move* createMove(int moveType);
+    bool gameStarted;
 };
 
 #endif // MAINWINDOW_H
