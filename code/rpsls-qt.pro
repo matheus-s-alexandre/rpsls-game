@@ -15,20 +15,22 @@ SOURCES += \
     logic/moves/rock.cpp \
     logic/moves/scissors.cpp \
     logic/moves/spock.cpp \
-    logic/rock.cpp \
+    logic/moves/rock.cpp \
     main.cpp \
     rpsls.cpp \
+    tests/tst_moves.cpp \
     ui/mainwindow.cpp
 
 HEADERS += \
     logic/game.h \
-    logic/move.h \
     logic/moves/lizard.h \
+    logic/moves/move.h \
     logic/moves/paper.h \
     logic/moves/rock.h \
     logic/moves/scissors.h \
     logic/moves/spock.h \
-    logic/rock.h \
+    logic/moves/rock.h \
+    logic/moves/move.h \
     rpsls.h \
     ui/mainwindow.h
 
