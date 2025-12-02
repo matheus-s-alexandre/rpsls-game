@@ -1,7 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "move.h"
+#include "./moves/move.h"
 #include <string>
 
 enum class MatchMode {
