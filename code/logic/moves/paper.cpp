@@ -1,3 +1,7 @@
 #include "paper.h"
+#include "rock.h"
+#include "spock.h"
 
-paper::paper() {}
+bool Paper::defeats(const Move& opponentMove) const {
+    return (opponentMove.getName() == "Rock" || opponentMove.getName() == "Spock");
+}

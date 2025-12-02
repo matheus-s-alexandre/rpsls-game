@@ -1,10 +1,12 @@
 #ifndef SPOCK_H
 #define SPOCK_H
 
-class spock
-{
+#include "move.h"
+
+class Spock : public Move {
 public:
-    spock();
+    std::string getName() const override { return "Spock"; }
+    bool defeats(const Move& opponentMove) const override;
 };
 
-#endif // SPOCK_H
+#endif

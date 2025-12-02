@@ -1,10 +1,12 @@
 #ifndef LIZARD_H
 #define LIZARD_H
 
-class lizard
-{
+#include "move.h"
+
+class Lizard : public Move {
 public:
-    lizard();
+    std::string getName() const override { return "Lizard"; }
+    bool defeats(const Move& opponentMove) const override;
 };
 
-#endif // LIZARD_H
+#endif

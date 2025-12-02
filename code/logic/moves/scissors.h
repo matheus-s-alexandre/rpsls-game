@@ -1,10 +1,12 @@
 #ifndef SCISSORS_H
 #define SCISSORS_H
 
-class scissors
-{
+#include "move.h"
+
+class Scissors : public Move {
 public:
-    scissors();
+    std::string getName() const override { return "Scissors"; }
+    bool defeats(const Move& opponentMove) const override;
 };
 
-#endif // SCISSORS_H
+#endif

@@ -1,7 +1,7 @@
 #ifndef ROCK_H
 #define ROCK_H
 
-#include "../move.h"
+#include "move.h"
 
 class Rock : public Move {
 public:
@@ -9,4 +9,4 @@ public:
     bool defeats(const Move& other) const override;
 };
 
-#endif // LOGIC_ROCK_H
+#endif

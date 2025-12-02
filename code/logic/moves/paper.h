@@ -1,10 +1,12 @@
 #ifndef PAPER_H
 #define PAPER_H
 
-class paper
-{
+#include "move.h"
+
+class Paper : public Move {
 public:
-    paper();
+    std::string getName() const override { return "Paper"; }
+    bool defeats(const Move& opponentMove) const override;
 };
 
-#endif // PAPER_H
+#endif
