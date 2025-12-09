@@ -15,7 +15,6 @@ SOURCES += \
     logic/moves/rock.cpp \
     logic/moves/scissors.cpp \
     logic/moves/spock.cpp \
-    logic/moves/rock.cpp \
     main.cpp \
     rpsls.cpp \
     tests/tst_moves.cpp \
@@ -29,7 +28,6 @@ HEADERS += \
     logic/moves/rock.h \
     logic/moves/scissors.h \
     logic/moves/spock.h \
-    logic/moves/rock.h \
     logic/moves/move.h \
     rpsls.h \
     ui/mainwindow.h

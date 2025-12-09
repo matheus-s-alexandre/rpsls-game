@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "../logic/moves/move.h"
 #include "../logic/moves/rock.h"
 #include "../logic/moves/paper.h"
 #include "../logic/moves/scissors.h"
@@ -11,23 +12,24 @@
 #include <QHBoxLayout>
 #include <QVariant>
 #include <QDebug>
+#include <iostream>
 
 enum MoveType {
-    Rock,
-    Paper,
-    Scissors,
-    Lizard,
-    Spock
+    RockMove,
+    PaperMove,
+    ScissorsMove,
+    LizardMove,
+    SpockMove
 };
 
 MainWindow::MainWindow(QWidget *parent)
     : QWidget(parent), game(nullptr)
 {
-    modeSelector = new QComboBox(this);
+    modeSelector = new QComboBox();
     modeSelector->addItem("Single Match", QVariant::fromValue(MatchMode::SINGLE));
     modeSelector->addItem("Best of 3", QVariant::fromValue(MatchMode::BEST_OF_THREE));
 
-    startButton = new QPushButton("Start Game", this);
+    startButton = new QPushButton("Start Game");
 
     QHBoxLayout *modeLayout = new QHBoxLayout();
     modeLayout->addWidget(new QLabel("Select Mode:", this));
@@ -36,13 +38,14 @@ MainWindow::MainWindow(QWidget *parent)
 
     moveSelector = new QComboBox(this);
 
-    moveSelector->addItem("Rock", QVariant::fromValue((int)MoveType::Rock));
-    moveSelector->addItem("Paper", QVariant::fromValue((int)MoveType::Paper));
-    moveSelector->addItem("Scissors", QVariant::fromValue((int)MoveType::Scissors));
-    moveSelector->addItem("Lizard", QVariant::fromValue((int)MoveType::Lizard));
-    moveSelector->addItem("Spock", QVariant::fromValue((int)MoveType::Spock));
+    moveSelector->addItem("Rock", QVariant::fromValue(static_cast<int>(MoveType::RockMove)));
+    moveSelector->addItem("Paper", QVariant::fromValue(static_cast<int>(MoveType::PaperMove)));
+    moveSelector->addItem("Scissors", QVariant::fromValue(static_cast<int>(MoveType::ScissorsMove)));
+    moveSelector->addItem("Lizard", QVariant::fromValue(static_cast<int>(MoveType::LizardMove)));
+    moveSelector->addItem("Spock", QVariant::fromValue(static_cast<int>(MoveType::SpockMove)));
 
     playButton = new QPushButton("Play Move", this);
+    resetButton = new QPushButton("Reset Game", this);
 
     QHBoxLayout *playLayout = new QHBoxLayout();
     playLayout->addWidget(moveSelector);
@@ -56,22 +59,26 @@ MainWindow::MainWindow(QWidget *parent)
     mainLayout->addLayout(playLayout);
     mainLayout->addWidget(roundResultLabel);
     mainLayout->addWidget(finalResultLabel);
+    mainLayout->addWidget(resetButton);
 
     connect(startButton, &QPushButton::clicked, this, &MainWindow::startGame);
     connect(playButton, &QPushButton::clicked, this, &MainWindow::makeMove);
+    connect(resetButton, &QPushButton::clicked, this, &MainWindow::resetGame);
 }
 
 Move* MainWindow::createMove(int moveType) {
+    std::cout << "moveType: " << moveType << std::endl;
+
     switch (moveType) {
-    case MoveType::Rock:
+    case MoveType::RockMove:
         return new Rock();
-    case MoveType::Paper:
+    case MoveType::PaperMove:
         return new Paper();
-    case MoveType::Scissors:
+    case MoveType::ScissorsMove:
         return new Scissors();
-    case MoveType::Lizard:
+    case MoveType::LizardMove:
         return new Lizard();
-    case MoveType::Spock:
+    case MoveType::SpockMove:
         return new Spock();
     default:
         return nullptr;
@@ -80,39 +87,71 @@ Move* MainWindow::createMove(int moveType) {
 
 void MainWindow::startGame()
 {
-    MatchMode mode = static_cast<MatchMode>(modeSelector->currentData().toInt());
-    game = new Game(mode);
+    // if a previous game exists, delete it
+    if (game) {
+        delete game;
+        game = nullptr;
+    }
+
+    int modeInt = modeSelector->currentData().toInt();
+    std::cout << "modeInt: " << modeInt << std::endl;
+
+    MatchMode mode = static_cast<MatchMode>(modeInt);
+
+    game = new Game(mode, this);
+
+    // Connect Qt signals from Game → UI slots
+    //connect(startButton, &QPushButton::clicked, this, &MainWindow::startGame);
+    //connect(playButton, &QPushButton::clicked, this, &MainWindow::makeMove);
+
     finalResultLabel->clear();
     roundResultLabel->setText("Choose your move:");
 }
 
+
 void MainWindow::makeMove()
 {
     int selectedMoveType = moveSelector->currentData().toInt();
+    // std::cout << "selectedMoveType: " << selectedMoveType << std::endl;
+
     Move* playerMove = createMove(selectedMoveType);
+    // std::cout << "playerMove: " << playerMove << std::endl;
+
     if (!playerMove) {
         qWarning() << "Invalid move selected!";
         return;
     }
 
-    RoundResult result = game->playRound(playerMove, "Rock");
+    int computerMoveType = std::rand() % 5;
 
-    QString text = QString("You played: %1\nComputer played: %2\nResult: %3")
-                       .arg(QString::fromStdString(result.playerMove))
-                       .arg(QString::fromStdString(result.computerMove))
-                       .arg(result.resultText);
+    Move* computerMove = createMove(computerMoveType);
 
+    std::string resultText = game->playRound(*playerMove, *computerMove);
+
+    QString text = QString::fromStdString(resultText);
     roundResultLabel->setText(text);
-    updateAfterRound();
-}
 
-// Update the UI after a round
-void MainWindow::updateAfterRound()
-{
+    delete playerMove;
+    delete computerMove;
+
     if (game->isFinished()) {
-        QString finalText = QString("Final Result: %1")
-        .arg(game->getFinalResult());
 
+        QString finalText = QString::fromStdString(game->getFinalResult());
         finalResultLabel->setText("<b>" + finalText + "</b>");
     }
 }
+
+void MainWindow::resetGame()
+{
+    if (game) {
+        game->resetGame();
+    }
+
+    roundResultLabel->setText("Round results:");
+    finalResultLabel->clear();
+
+    modeSelector->setCurrentIndex(0);
+    moveSelector->setCurrentIndex(0);
+}
+
+

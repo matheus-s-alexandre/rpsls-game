@@ -14,24 +14,24 @@ class MainWindow : public QWidget {
 
 public:
     MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+    ~MainWindow() = default;
 
 private slots:
     void startGame();
     void makeMove();
-    void updateAfterRound();
+    void resetGame();
 
 private:
     QComboBox *modeSelector;
     QComboBox *moveSelector;
     QPushButton *startButton;
     QPushButton *playButton;
+    QPushButton *resetButton;
     QLabel *roundResultLabel;
     QLabel *finalResultLabel;
 
     Game *game;
     Move* createMove(int moveType);
-    bool gameStarted;
 };
 
 #endif // MAINWINDOW_H

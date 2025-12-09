@@ -6,7 +6,7 @@
 class Rock : public Move {
 public:
     std::string getName() const override { return "Rock"; }
-    bool defeats(const Move& other) const override;
+    bool defeats(const Move& opponentMove) const override;
 };
 
 #endif
