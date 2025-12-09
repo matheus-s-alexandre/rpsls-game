@@ -28,13 +28,10 @@ std::string Game::playRound(const Move& player, const Move& computer) {
         resultText += "You win this round!";
         emit roundResult("You win this round!");
     } else if (computer.defeats(player)) {
-        std::cout << "---- COMPUTER WINS ----: " << std::endl;
         computerWins++;
         resultText += "Computer wins this round!";
         emit roundResult("Computer wins this round!");
     } else {
-        std::cout << "---- ELSEE ----: " << std::endl;
-
         resultText += "It's a tie!";
         emit roundResult("It's a tie!");
     }
@@ -53,7 +50,6 @@ bool Game::isFinished() const {
         return roundsPlayed >= 1;
     }
 
-    // return playerWins == 2 || computerWins == 2;
     if (mode == MatchMode::BEST_OF_THREE) {
         return (playerWins == 2 || computerWins == 2);
     }
@@ -61,18 +57,13 @@ bool Game::isFinished() const {
 }
 
 std::string Game::getFinalResult() const {
-    std::cout << "playerWins: " << playerWins << std::endl;
-    std::cout << "computerWins: " << computerWins << std::endl;
-
     if (mode == MatchMode::SINGLE) {
-        std::cout << "SINGLE MODE: " << std::endl;
         if (playerWins > computerWins) return "You win!";
         if (computerWins > playerWins) return "Computer wins!";
         return "It's a tie!";
     }
     else {
         // BEST_OF_THREE Game Mode
-        std::cout << "BEST_OF_THREE: " << std::endl;
         if (playerWins == 2) {
             return "You won the match!";
         } else if (computerWins == 2) {
