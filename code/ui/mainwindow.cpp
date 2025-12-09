@@ -100,10 +100,6 @@ void MainWindow::startGame()
 
     game = new Game(mode, this);
 
-    // Connect Qt signals from Game → UI slots
-    //connect(startButton, &QPushButton::clicked, this, &MainWindow::startGame);
-    //connect(playButton, &QPushButton::clicked, this, &MainWindow::makeMove);
-
     finalResultLabel->clear();
     roundResultLabel->setText("Choose your move:");
 }
@@ -112,10 +108,8 @@ void MainWindow::startGame()
 void MainWindow::makeMove()
 {
     int selectedMoveType = moveSelector->currentData().toInt();
-    // std::cout << "selectedMoveType: " << selectedMoveType << std::endl;
 
     Move* playerMove = createMove(selectedMoveType);
-    // std::cout << "playerMove: " << playerMove << std::endl;
 
     if (!playerMove) {
         qWarning() << "Invalid move selected!";
