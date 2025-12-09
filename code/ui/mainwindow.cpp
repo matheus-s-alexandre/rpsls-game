@@ -67,8 +67,6 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 Move* MainWindow::createMove(int moveType) {
-    std::cout << "moveType: " << moveType << std::endl;
-
     switch (moveType) {
     case MoveType::RockMove:
         return new Rock();
@@ -94,7 +92,6 @@ void MainWindow::startGame()
     }
 
     int modeInt = modeSelector->currentData().toInt();
-    std::cout << "modeInt: " << modeInt << std::endl;
 
     MatchMode mode = static_cast<MatchMode>(modeInt);
 
